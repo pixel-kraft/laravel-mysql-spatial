@@ -86,7 +86,7 @@ trait SpatialTrait
         foreach ($this->attributes as $key => $value) {
             if ($value instanceof GeometryInterface) {
                 $this->geometries[$key] = $value; //Preserve the geometry objects prior to the insert
-                $this->attributes[$key] = new SpatialExpression($value);
+                $this->attributes[$key] = new SpatialExpression($value, $query->getModel());
             }
         }
 
