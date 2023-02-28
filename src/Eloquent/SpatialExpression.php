@@ -6,14 +6,16 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Facades\DB;
 use PDO;
 
 class SpatialExpression extends Expression
 {
     protected bool $supportsCustomAxisOrder;
-    public function __construct($value, Model $model)
+    public function __construct($value, ?Model $model)
     {
-        $this->supportsCustomAxisOrder = $this->checkCustomAxisSupport($model->getConnection());
+        $connection = $model ? $model->getConnection() : DB::connection();
+        $this->supportsCustomAxisOrder = $this->checkCustomAxisSupport($connection);
 
         parent::__construct($value);
     }
